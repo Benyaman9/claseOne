@@ -58,22 +58,24 @@ const initalizatePassport = () => {
 
 
     passport.use('github', new GithubStrategy({
-    clientID: "",
-    clientSecret: "",
+    clientID: "Iv23liGbAISzLvOrQG5z", // esta contraseña esta en mi escritorio en CLASE 0
+    clientSecret: "b59a487b8a48fdfe8846e3e8cc2a7df99d2bba8d", // esta tambien
     callbackURL: "http://localhost:8080/api/sessions/githubcallback"
     }, async (accessToken, refreshToken, profile, done) =>{
         try {
-            console.log(profile);
-            console.log(accessToken);
-            console.log(refreshToken);
+            
             
             
     let user = await userModel.findOne({email: profile._json.email}) 
     if (!user) {
-        let newUser ={
-
-        }
-        done(null, true)
+        const user = await userModel.create({
+            first_name: profile._json.name,
+            last_name: " ", //dato que no me da github y lo cargo vacio
+            email: profile._json.email,
+            password: '1234', // dato que no me da git, genero una pass por defecto
+            age: 24 // dato que no me da git
+        })
+        done(null, user)
     } else {
         done(null, user)
     }
