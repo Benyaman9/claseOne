@@ -28,7 +28,7 @@ export const insertProductCart = async (req, res) => {
     try {
         const cartId = req.params.cid
         const productId = req.params.pid
-        const { quantity } = req.body
+        const {quantity} = req.body
         const cart = await cartModel.findOne({ _id: cartId })
         if (cart) {
             const indice = cart.products.findIndex(prod => prod._id == productId)
@@ -53,7 +53,7 @@ export const insertProductCart = async (req, res) => {
 export const updateProductCart = async (req, res) => {
     try {
         const cartId = req.params.cid
-        const { newProduct } = req.body
+        const {newProduct} = req.body
         const cart = await cartModel.findOne({ _id: cartId })
         cart.products = newProduct
         cart.save()
@@ -68,7 +68,7 @@ export const updateQuantityProductCart = async (req, res) => {
     try {
         const cartId = req.params.cid
         const productId = req.params.pid
-        const { quantity } = req.body
+        const {quantity} = req.body
         const cart = await cartModel.findOne({ _id: cartId })
         if (cart) {
             const indice = cart.products.findIndex(prod => prod._id == productId)
@@ -94,7 +94,7 @@ export const deleteProductCart = async (req, res) => {
     try {
         const cartId = req.params.cid
         const productId = req.params.pid
-        const cart = await cartModel.findOne({ _id: cartId })
+        const cart = await cartModel.findOne({_id: cartId})
         if (cart) {
             const indice = cart.products.findIndex(prod => prod._id == productId)
             if (indice != -1) {

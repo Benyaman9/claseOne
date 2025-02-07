@@ -45,6 +45,7 @@ const initalizatePassport = () => {
         try {
             const user = await userModel.findOne({email: username})
             if(user && validatePassword(password, user.password)) {
+                
                 return done(null, user)
             } else {
                 return done(null, false)
@@ -57,7 +58,7 @@ const initalizatePassport = () => {
     }))
 
 
-    passport.use('github', new GithubStrategy({
+    /*passport.use('github', new GithubStrategy({
     clientID: "Iv23liGbAISzLvOrQG5z", // esta contraseña esta en mi escritorio en CLASE 0
     clientSecret: "b59a487b8a48fdfe8846e3e8cc2a7df99d2bba8d", // esta tambien
     callbackURL: "http://localhost:8080/api/sessions/githubcallback"
@@ -88,7 +89,7 @@ const initalizatePassport = () => {
     
     }))
 
-
+*/
 // ESTO ES NECESARIO PARA TRABAJAR VIA HTTP
 passport.serializeUser((user, done) => {
     done(null, user._id)

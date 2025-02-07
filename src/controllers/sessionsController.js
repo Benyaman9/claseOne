@@ -10,7 +10,7 @@ export const login = async (req, res) => {
             email: req.user.email,
             first_name: req.user.first_name
         }
-        res.status(200).send("usuario logueado correctamente")
+        res.status(200).redirect("/")  //send("usuario logueado correctamente")
     } catch (e) {
         console.log(e);
         res.status(500).send("error al loguear usuario")
@@ -23,7 +23,7 @@ export const register = async (req, res) => {
     try {
         console.log(req.user);
         
-        if(!req. user){ //consulto si en la sesion esta mi usuario
+        if(!req.user){ //consulto si en la sesion esta mi usuario
     return res.status(400).send("mail ya registrado")
         }
         res.status(201).send("usuario creado correctamente")
