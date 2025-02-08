@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 
 let secretKey = "codercoder"
 
-const generateToken = (user) => {
+export const generateToken = (user) => {
     /*
     oarametro1: objeto a guardar(user en este caso)
     param2: clave privada : secretKey
@@ -14,14 +14,13 @@ const generateToken = (user) => {
     return token
 }
 
-console.log(
 
-generateToken({
 
-    first_name: "Camila",
-    last_name: "Caceres",
-    email: "camil@cami.com",
-    age: 38,
-    rol: "Usuario"
 
-}))
+
+/*first_name: "benjamin",
+last_name: "artunduaga",
+email: "benja@benja.com",
+password: "$2b$05$CJitUvcjU8XNAeURAijVl.MFibnJ4bEPpR7vFOroxSCwx1U9RuWZ.",
+age: 24,
+rol: "Usuario" */

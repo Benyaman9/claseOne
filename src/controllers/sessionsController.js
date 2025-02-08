@@ -1,3 +1,4 @@
+import { generateToken } from "../utils/jwt.js"
 
 
 
@@ -6,11 +7,23 @@ export const login = async (req, res) => {
         if(!req.user) {
             return res.status(401).send("Usuario o contraseña no validos")
         }
+
+        const token = generateToken(req.user)
+
+
         req.session.user ={
             email: req.user.email,
             first_name: req.user.first_name
         }
-        res.status(200).redirect("/")  //send("usuario logueado correctamente")
+        
+
+        //previo a redireccionar envio la cookie
+        res.cookie('coderCookie', token, {
+            httpOnly: true,
+            secure: false,  // evitar errores por https
+            maxAge: 3600000 // una hora
+        })
+        res.status(200).redirect('/')  //send("usuario logueado correctamente")
     } catch (e) {
         console.log(e);
         res.status(500).send("error al loguear usuario")
@@ -26,7 +39,7 @@ export const register = async (req, res) => {
         if(!req.user){ //consulto si en la sesion esta mi usuario
     return res.status(400).send("mail ya registrado")
         }
-        res.status(201).send("usuario creado correctamente")
+        return res.status(201).send("usuario creado correctamente")
     } catch (e) {
         console.log(e);
         
