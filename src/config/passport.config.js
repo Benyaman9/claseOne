@@ -16,30 +16,28 @@ const cookieExtractor = (req) => {
     if (req && req.cookies) {
         token = req.cookies['coderCookie'] // consulto por las cookies con este nombre
         console.log(req.cookies);
-        
+
     }
-    
-    
+
+
     return token
 }
 
 //middleware para errores de passport
-export const passportCall = (strategy) =>{
-    return async(req, res, next) =>{
-        console.log(strategy);
-        
-        passport.authenticate("jwt", function(err,user,info) {
-            console.log(user);
-            console.log(err);
-            
-            
-            if(err)
-                return next(err)
-            if(!user)
-                return res.status(401).send({error: info.messages?info.messages: info.toString()})
+export const passportCall = (strategy) => {
+    return async (req, res, next) => {
+
+
+        passport.authenticate(strategy, function (err, user, info) {
+
+            if (err) return next(err)
+            if (!user) {
+                return res.status(401).send({ error: info.messages ? info.messages : info.toString() })
+            }
+
             req.user = user
-            return next()
-        }, (req,res,next))
+            next()
+        }(req, res, next))
     }
 }
 
@@ -131,8 +129,8 @@ const initalizatePassport = () => {
     }, async (jwt_payload, done) => {
         try {
             console.log(jwt_payload);
-            
-            return done(null, jwt_payload)
+
+            return done(null, jwt_payload.user)
         } catch (e) {
             return done(err)
         }
@@ -143,8 +141,10 @@ const initalizatePassport = () => {
 
     // ESTO ES NECESARIO PARA TRABAJAR VIA HTTP
     passport.serializeUser((user, done) => {
-        done(null, user._id)
+        
+            done(null, user._id)
     })
+    
     passport.deserializeUser(async (id, done) => {
         const user = await userModel.findById(id)
         done(null, user)

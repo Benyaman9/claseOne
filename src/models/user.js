@@ -32,22 +32,23 @@ const userSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "carts"
     }
-    })
+})
 
-    // genero un new carrito al crear un usuario
-userSchema.post("save", async function name(userCreated){
-try {
-    const newCart = await cartModel.create({ products: [] })
-userCreated.cart = newCart._id // referencio el id del carrito con el del user 
-const mensaje = await userCreated.save()
-console.log(mensaje);
+// genero un new carrito al crear un usuario
+userSchema.post("save", async function (doc) {
+    try {
+        if (!doc.cart) { // evito crear multiples carritos
+            const newCart = await cartModel.create({ products: [] });
+            await model("users").findByIdAndUpdate(doc._id, { cart: newCart._id }); // referencio el id del carrito con el del user 
+        }
 
-} catch (e) {
-    console.log(e);
-    
-}
-}) 
 
-    const userModel = model("users", userSchema)
+    } catch (e) {
+        console.error("error al crear carrito", e);
 
-    export default userModel
+    }
+});
+
+const userModel = model("users", userSchema)
+
+export default userModel

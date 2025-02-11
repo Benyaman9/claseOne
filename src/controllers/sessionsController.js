@@ -34,7 +34,7 @@ export const login = async (req, res) => {
 
 export const register = async (req, res) => {
     try {
-        console.log(req.user);
+        
         
         if(!req.user){ //consulto si en la sesion esta mi usuario
     return res.status(400).send("mail ya registrado")
